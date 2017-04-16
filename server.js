@@ -67,6 +67,29 @@ app.post('/api/albums', function createAlbum(req, res){
   albumGenres.push(req.body.genres);
   console.log(albumGenres);
 });
+
+app.get('/api/albums/:id', function(req,res){
+  db.Album.findOne({_id: req.params.id}, function(err, data){
+    res.json(data);
+  });
+});
+
+app.post('/api/albums/:id/song', function createSong(req,res){
+  var albumId = req.params.album_id;
+  // console.log(req);
+  console.log(req.body);
+  // console.log(req.params._id);
+  db.Song.findById(albumId)
+    .populate('song')
+    .exec(function(err, foundAlbum){
+      console.log(albumId);
+      if (err){
+        console.log(err);
+      }
+      console.log(foundAlbum);
+      // foundAlbum.save();
+    });
+});
 /**********
  * SERVER *
  **********/
