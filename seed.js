@@ -30,13 +30,72 @@ var albumsList = [
             }
 ];
 
-db.Album.remove({}, function(err, albums){
 
-  db.Album.create(albumsList, function(err, albums){
-    if (err) { return console.log('ERROR', err); }
-    console.log("all albums:", albums);
-    console.log("created", albums.length, "albums");
-    process.exit();
-  });
+var sampleSongs = [];
 
+sampleSongs.push({ name: 'Famous',
+                   trackNumber: 1
+});
+sampleSongs.push({ name: "All of the Lights",
+                   trackNumber: 2
+});
+sampleSongs.push({ name: 'Guilt Trip',
+                   trackNumber: 3
+});
+sampleSongs.push({ name: 'Paranoid',
+                   trackNumber: 4
+});
+sampleSongs.push({ name: 'Ultralight Beam',
+                   trackNumber: 5
+});
+sampleSongs.push({ name: 'Runaway',
+                   trackNumber: 6
+});
+sampleSongs.push({ name: 'Stronger',
+                   trackNumber: 7
+});
+
+
+console.log(sampleSongs);
+
+db.Song.remove({}, function(err, songs){
+	console.log('removed all songs');
+	db.Song.create(sampleSongs, function(err, songs){
+		if(err) {
+			console.log(err);
+		}
+	db.Album.remove({}, function(err, albums){
+ 		// db.Album.create(albumsList, function(err, albums){
+   //  	if (err) { return console.log('ERROR', err); }
+    	albumsList.forEach(function(albumData){
+    		var album = new db.Album({
+    			artistName: albumData.artistName,
+    			name: albumData.name,
+    			releaseDate: albumData.releaseDate,
+    			genres: albumData.genres,
+    			// songs: albumData.songs
+    		});
+    		db.Song.find({}, function(err, foundSongs){
+    			console.log(foundSongs);
+    			if(err){
+    				console.log(err);
+    				return;
+    			}
+    			album.songs = foundSongs;
+    			// console.log("hello" + foundSongs);
+    			album.save(function(err, savedAlbum){
+    				if(err){
+    					return console.log(err);
+    				}
+    				console.log('saved');
+    				console.log(savedAlbum);
+    			});
+    		});
+    		});
+    		// console.log("all albums:", albumsList);
+    		// console.log("created", albumsList.length, "albums");
+    		// process.exit();
+  			});
+		});
+	// });
 });

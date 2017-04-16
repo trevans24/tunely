@@ -34,8 +34,6 @@ sampleAlbums.push({
            });
 /* end of hard-coded data */
 
-// var genre = [];
-
 
 $(document).ready(function() {
   console.log('app.js loaded!');
@@ -64,6 +62,14 @@ $(document).ready(function() {
 });
 
 
+function buildSongsHtml(songs) {
+  var songText = " – "; 
+  songs.forEach(function(song) { 
+    songText = songText + "(" + song.trackNumber + ") " + song.name + " – "; 
+  }); 
+  var songsHtml = songText;
+    return songsHtml; 
+  }
 
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
@@ -94,6 +100,10 @@ function renderAlbum(album) {
   "                        <h4 class='inline-header'>Released date:</h4>" +
   "                        <span class='album-releaseDate'>" + album.releaseDate + "</span>" +
   "                      </li>" +
+   "                      <li class='list-group-item'>" +
+  "                        <h4 class='inline-header'>Songs:</h4>" +
+  "                        <span class='album-songs'>" + buildSongsHtml(album.songs) + "</span>" +
+  "                      </li>" +
   "                    </ul>" +
   "                  </div>" +
   "                </div>" +
@@ -110,8 +120,6 @@ function renderAlbum(album) {
 
   // render to the page with jQuery
 $('#albums').append(albumHtml);
-
-
 
 
 }
