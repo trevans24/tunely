@@ -65,16 +65,15 @@ db.Song.remove({}, function(err, songs){
 			console.log(err);
 		}
 	db.Album.remove({}, function(err, albums){
- 		// db.Album.create(albumsList, function(err, albums){
-   //  	if (err) { return console.log('ERROR', err); }
     	albumsList.forEach(function(albumData){
     		var album = new db.Album({
     			artistName: albumData.artistName,
     			name: albumData.name,
     			releaseDate: albumData.releaseDate,
     			genres: albumData.genres,
-    			// songs: albumData.songs
+          // songs: albumData.songs
     		});
+        console.log(album);
     		db.Song.find({}, function(err, foundSongs){
     			console.log(foundSongs);
     			if(err){
@@ -87,15 +86,11 @@ db.Song.remove({}, function(err, songs){
     				if(err){
     					return console.log(err);
     				}
-    				console.log('saved');
+    				// console.log('saved');
     				console.log(savedAlbum);
     			});
     		});
-    		});
-    		// console.log("all albums:", albumsList);
-    		// console.log("created", albumsList.length, "albums");
-    		// process.exit();
-  			});
-		});
-	// });
+      });
+    });
+});
 });
