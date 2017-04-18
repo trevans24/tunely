@@ -33,8 +33,6 @@
 //              genres: [ 'piano' ]
 //            });
 /* end of hard-coded data */
-
-
 $(document).ready(function() {
   console.log('app.js loaded!');
   $.get('/api/albums', function(res){
@@ -66,18 +64,20 @@ $(document).ready(function() {
       url: '/api/albums/' + id + '/songs',
       type: 'POST',
       data: songData,
-      success: console.log("new song added: " + newSong + "Track: " + newTrackNumber)
+      success: [function(data){
+        $('.album[data-album-id=' + id + ']').remove();
+        renderAlbum(data);
+      }]
     });
     $('#songName').val('');
     $('#trackNumber').val('');
+    $('#songModal').modal('toggle');
   });
   
 
 $('form').submit(function(event){
       event.preventDefault();
       var formData = $(this).serialize();
-      // console.log("submit");
-      // console.log(formData);
 
     $.ajax({
       url: '/api/albums',
