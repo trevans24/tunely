@@ -60,14 +60,17 @@ $(document).ready(function() {
       name: newSong,
       trackNumber: newTrackNumber
     };
+    console.log(songData);
     $.ajax({
       url: '/api/albums/' + id + '/songs',
       type: 'POST',
       data: songData,
       success: [function(data){
+        console.log(data);
         $('.album[data-album-id=' + id + ']').remove();
         renderAlbum(data);
-      }]
+      }],
+      error: console.log("error adding song") 
     });
     $('#songName').val('');
     $('#trackNumber').val('');
